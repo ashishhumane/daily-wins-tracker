@@ -1,5 +1,4 @@
 import { useState, useCallback, useEffect } from "react";
-import { format } from "date-fns";
 import { AnimatePresence, motion } from "framer-motion";
 import { Target } from "lucide-react";
 import {
@@ -13,8 +12,6 @@ import {
 import { TaskRow } from "@/components/TaskRow";
 import { AddTaskInput } from "@/components/AddTaskInput";
 import { WeekNavigator } from "@/components/WeekNavigator";
-
-const DAY_LABELS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
 
 const Index = () => {
   const [tasks, setTasks] = useState<Task[]>(loadTasks);
@@ -56,21 +53,21 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-4xl px-4 py-6 sm:py-8 sm:px-6 lg:px-8">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-8 flex items-center gap-3"
+          className="mb-6 flex items-center gap-3"
         >
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary shrink-0">
             <Target className="h-5 w-5 text-primary-foreground" />
           </div>
           <div>
-            <h1 className="font-display text-2xl font-bold tracking-tight">
+            <h1 className="font-display text-xl sm:text-2xl font-bold tracking-tight">
               Progress Tracker
             </h1>
-            <p className="text-sm text-muted-foreground">
+            <p className="text-xs sm:text-sm text-muted-foreground">
               Build consistency, one day at a time
             </p>
           </div>
@@ -81,7 +78,7 @@ const Index = () => {
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            className="mb-6 rounded-xl bg-card p-4"
+            className="mb-5 rounded-xl bg-card p-4"
           >
             <div className="mb-2 flex items-center justify-between">
               <span className="text-sm font-medium text-muted-foreground">
@@ -105,35 +102,6 @@ const Index = () => {
         {/* Week navigator */}
         <div className="mb-4">
           <WeekNavigator weekStart={weekStart} onChangeWeek={setWeekStart} />
-        </div>
-
-        {/* Day labels header */}
-        <div className="mb-2 grid grid-cols-[1fr_repeat(7,_minmax(0,_1fr))_auto] gap-2 px-4">
-          <div />
-          {weekDays.map((day, i) => {
-            const today = dateKey(day) === dateKey(new Date());
-            return (
-              <div key={i} className="flex flex-col items-center">
-                <span
-                  className={`text-xs font-medium ${
-                    today ? "text-primary" : "text-muted-foreground"
-                  }`}
-                >
-                  {DAY_LABELS[i]}
-                </span>
-                <span
-                  className={`mt-0.5 flex h-6 w-6 items-center justify-center rounded-md text-xs font-semibold ${
-                    today
-                      ? "bg-primary text-primary-foreground"
-                      : "text-foreground"
-                  }`}
-                >
-                  {format(day, "d")}
-                </span>
-              </div>
-            );
-          })}
-          <div className="w-8" />
         </div>
 
         {/* Task list */}
